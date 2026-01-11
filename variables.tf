@@ -4,23 +4,32 @@ variable "cloudflare_token" {
   type        = string
 }
 
-variable "cluster_nodes" {
-  description = "List of cluster nodes"
+# variable "cluster_nodes" {
+#   description = "List of cluster nodes"
+#   type = map(object({
+#     ip      = string
+#   }))
+# }
+
+variable "firewall_aliases" {
+  description = "Map of Proxmox firewall aliases"
   type = map(object({
-    ip      = string
+    cidr = string
+    comment = optional(string, "")
   }))
+  default = {}
 }
 
-variable "trusted_clients" {
-  description = "List of allowed client IP for management access"
+variable "management_ipset" {
+  description = "List of allowed IPs for management access"
   type = map(object({
     ip      = string
-    comment = string
+    comment = optional(string, "")
   }))
 }
 
 variable "firewall_enabled" {
-  description = "Enable or disable the firewall on the Proxmox nodes"
+  description = "Enable or disable the DC firewall"
   type        = bool
-  default     = true
+  default     = false
 }
